@@ -71,6 +71,33 @@ namespace LinkedListDSA
             return head; // return current head
         }
 
+        Node InsertNodeRecursive(Node head, int data, int index) {
+            Node newNode = new Node(data);
+            if (head == null)
+                return head;
+            if(index == 0)
+            {
+                newNode.next = head;
+                head = newNode;
+                return head;
+            }
+            Node node = InsertNodeRecursive(head.next, data, index - 1);
+            head.next = node;
+            return head;
+        }
+        Node DeleteNodeRecursive(Node head, int index)
+        {
+            if (head == null)
+                return head;
+            if (index == 0)
+            {
+                head = head.next;
+                return head;
+            }
+            Node node = DeleteNodeRecursive(head.next, index - 1);
+            head.next = node;
+            return head;
+        }
 
         static void Main(string[] args)
         {
@@ -91,7 +118,7 @@ namespace LinkedListDSA
             //var header = new Program().InsertNode(head, 70, -1);
             new Program().PrintLinkedList(head);
             Console.WriteLine("----------------------");
-            var header = new Program().DeleteNode(head, 7);
+            var header = new Program().DeleteNodeRecursive(head,1);
             new Program().PrintLinkedList(header);
 
         }
