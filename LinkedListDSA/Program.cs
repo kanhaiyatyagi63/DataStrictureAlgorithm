@@ -16,7 +16,31 @@ namespace LinkedListDSA
                 counter++;
             }
         }
-
+        Node DeleteNode(Node head, int index)
+        {
+            Node temp = head;
+            if (index < 0)
+                return head;
+            if (index == 0)
+            {
+                var node = temp.next;
+                temp.next = null;
+                return node;
+            }
+            int counter = 0;
+            // 100 200 300 400
+            while (counter < index - 1 && temp != null)
+            {
+                temp = temp.next;
+                counter++;
+            }
+            if (temp != null)
+            {
+                var removeNode = temp.next;
+                temp.next = removeNode.next;
+            }
+            return head;
+        }
         Node InsertNode(Node head, int data, int index)
         {
             // handling less than 0 index
@@ -64,7 +88,10 @@ namespace LinkedListDSA
             var n5 = new Node(5);
             n4.next = n5;
 
-            var header = new Program().InsertNode(head, 70, -1);
+            //var header = new Program().InsertNode(head, 70, -1);
+            new Program().PrintLinkedList(head);
+            Console.WriteLine("----------------------");
+            var header = new Program().DeleteNode(head, 7);
             new Program().PrintLinkedList(header);
 
         }
