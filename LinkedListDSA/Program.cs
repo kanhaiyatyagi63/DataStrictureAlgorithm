@@ -5,6 +5,25 @@ namespace LinkedListDSA
 
     class Program
     {
+        int length(Node head)
+        {
+            if (head == null)
+            {
+                return 0;
+            }
+            return 1 + length(head.next);
+        }
+        Node Middle(Node head)
+        {
+            Node slow = head;
+            Node fast = head;
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            return slow;
+        }
         void PrintLinkedList(Node head)
         {
             Node temp = head;
@@ -16,6 +35,7 @@ namespace LinkedListDSA
                 counter++;
             }
         }
+
         Node DeleteNode(Node head, int index)
         {
             Node temp = head;
@@ -39,6 +59,19 @@ namespace LinkedListDSA
                 var removeNode = temp.next;
                 temp.next = removeNode.next;
             }
+            return head;
+        }
+        Node DeleteNodeRecursive(Node head, int index)
+        {
+            if (head == null)
+                return head;
+            if (index == 0)
+            {
+                head = head.next;
+                return head;
+            }
+            Node node = DeleteNodeRecursive(head.next, index - 1);
+            head.next = node;
             return head;
         }
         Node InsertNode(Node head, int data, int index)
@@ -70,7 +103,6 @@ namespace LinkedListDSA
             }
             return head; // return current head
         }
-
         Node InsertNodeRecursive(Node head, int data, int index)
         {
             Node newNode = new Node(data);
@@ -86,21 +118,8 @@ namespace LinkedListDSA
             head.next = node;
             return head;
         }
-        Node DeleteNodeRecursive(Node head, int index)
+        Node ReverseRecursion(Node head)
         {
-            if (head == null)
-                return head;
-            if (index == 0)
-            {
-                head = head.next;
-                return head;
-            }
-            Node node = DeleteNodeRecursive(head.next, index - 1);
-            head.next = node;
-            return head;
-        }
-
-        Node ReverseRecursion(Node head) {
             if (head.next == null)
                 return head;
 
@@ -109,14 +128,13 @@ namespace LinkedListDSA
             head.next = null;
             return x;
         }
-
         Node ReverseInterative(Node head)
         {
             if (head == null)
                 return null;
             Node p = null;
             Node c = head;
-            Node n= head.next;
+            Node n = head.next;
 
             while (c != null)
             {
@@ -129,45 +147,99 @@ namespace LinkedListDSA
             return p;
         }
 
-        int length(Node head)
+        Node MergeRecursive(Node l1, Node l2)
         {
-            if (head == null)
+            if (l1 == null)
+                return l2;
+            if (l2 == null)
+                return l1;
+            if (l1.data < l2.data)
             {
-                return 0;
+                l1.next = MergeRecursive(l1.next, l2);
+                return l1;
             }
-            return 1 + length(head.next);
+            else
+            {
+                l2.next = MergeRecursive(l1, l2.next);
+                return l2;
+            }
+
         }
 
-        Node Middle(Node head)
+        Node RemoveDuplicatesRecursion(Node head)
         {
-            Node slow = head;
-            Node fast = head;
-            while (fast != null && fast.next != null)
+            if (head == null || head.next == null)
+                return head;
+            var nodes = RemoveDuplicatesRecursion(head.next);
+            if (head.data == nodes.data)
             {
-                slow = slow.next;
-                fast = fast.next.next;
+                return nodes;
             }
-            return slow;
+            else
+            {
+                head.next = nodes;
+                return head;
+            }
+        }
+        Node RemoveDuplicates(Node head)
+        {
+            if (head == null || head.next == null)
+                return head;
+            Node temp = head;
+            while (temp != null && temp.next != null)
+            {
+                if (temp.data == temp.next.data)
+                {
+                    temp.next = temp.next.next;
+                }
+                else {
+                    temp = temp.next;
+                }
+            }
+            return head;
+        }
+
+        Node Merge(Node list1, Node list2)
+        {
+            if (list1 == null) return list2;
+            if (list2 == null) return list1;
+            Node answer = new Node(0);
+            Node tail = answer;
+            while (list1 != null && list2 != null)
+            {
+                if (list1.data < list2.data)
+                {
+                    tail.next = list1;
+                    tail = list1;
+                    list1 = list1.next;
+                }
+                else
+                {
+                    tail.next = list2;
+                    tail = list2;
+                    list2 = list2.next;
+                }
+            }
+            if (list1 == null) tail.next = list2;
+            if (list2 == null) tail.next = list1;
+            return answer.next;
+
         }
 
         static void Main(string[] args)
         {
 
             Console.WriteLine("Hello Linked List!");
-            Node head;
+            Node list1;
+
             var n1 = new Node(1);
-            head = n1;
+            list1 = n1;
             var n2 = new Node(2);
             n1.next = n2;
-            var n3 = new Node(3);
+            var n3 = new Node(2);
             n2.next = n3;
-            var n4 = new Node(4);
-            n3.next = n4;
-            var n5 = new Node(5);
-            n4.next = n5;
-
             var program = new Program();
-            var n = program.ReverseRecursion(head);
+            var n = program.RemoveDuplicates(list1);
             program.PrintLinkedList(n);
 
 
