@@ -192,7 +192,8 @@ namespace LinkedListDSA
                 {
                     temp.next = temp.next.next;
                 }
-                else {
+                else
+                {
                     temp = temp.next;
                 }
             }
@@ -225,6 +226,40 @@ namespace LinkedListDSA
             return answer.next;
 
         }
+        /// <summary>
+        /// list 1 => 2 4 4 
+        /// list2 => 5 6 4
+        /// reverse it and find sum and again reverse
+        /// </summary>
+        /// <param name="list1"></param>
+        /// <param name="list2"></param>
+        /// <returns> 7 0  9</returns>
+        Node Sum(Node list1, Node list2)
+        {
+            int carry = 0;
+            Node dummyNode = new Node(-1);
+            Node temp = dummyNode;
+            while (list1 != null || list2 != null || carry > 0)
+            {
+                int sum = 0;
+                if (list1 != null) {
+                    sum += list1.data;
+                    list1 = list1.next;
+                }
+                if (list2 != null)
+                {
+                    sum += list2.data;
+                    list2 = list2.next;
+                }
+                sum += carry;
+                carry = sum / 10;
+
+                Node node = new Node(sum % 10);
+                temp.next = node;
+                temp = temp.next;
+            }
+            return dummyNode.next;
+        }
 
         static void Main(string[] args)
         {
@@ -232,14 +267,23 @@ namespace LinkedListDSA
             Console.WriteLine("Hello Linked List!");
             Node list1;
 
-            var n1 = new Node(1);
+            var n1 = new Node(2);
             list1 = n1;
-            var n2 = new Node(2);
+            var n2 = new Node(4);
             n1.next = n2;
-            var n3 = new Node(2);
+            var n3 = new Node(4);
             n2.next = n3;
+
+            Node list2;
+
+            var m1 = new Node(5);
+            list2 = m1;
+            var m2 = new Node(6);
+            m1.next = m2;
+            var m3 = new Node(4);
+            m2.next = m3;
             var program = new Program();
-            var n = program.RemoveDuplicates(list1);
+            var n = program.Sum(list1, list2);
             program.PrintLinkedList(n);
 
 
