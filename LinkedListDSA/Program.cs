@@ -242,7 +242,8 @@ namespace LinkedListDSA
             while (list1 != null || list2 != null || carry > 0)
             {
                 int sum = 0;
-                if (list1 != null) {
+                if (list1 != null)
+                {
                     sum += list1.data;
                     list1 = list1.next;
                 }
@@ -260,31 +261,65 @@ namespace LinkedListDSA
             }
             return dummyNode.next;
         }
+        Node CycleDetection(Node head)
+        {
+            Node slow = head;
+            Node fast = head;
+
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+                if (fast == slow)
+                {
+                    return slow;
+                }
+            }
+            return null;
+
+        }
+
+        Node GetFirstNodeOfCycle(Node start, Node mid)
+        {
+            while (start != null && mid != null)
+            {
+                if (start == mid)
+                    return start;
+                start = start.next;
+                mid = mid.next;
+            }
+            return start.next;
+        }
+
 
         static void Main(string[] args)
         {
 
             Console.WriteLine("Hello Linked List!");
-            Node list1;
+            Node head;
 
-            var n1 = new Node(2);
-            list1 = n1;
-            var n2 = new Node(4);
+            var n1 = new Node(1);
+            head = n1;
+            var n2 = new Node(2);
             n1.next = n2;
-            var n3 = new Node(4);
+            var n3 = new Node(3);
             n2.next = n3;
+            var n4 = new Node(4);
+            n3.next = n4;
+            var n5 = new Node(5);
+            n4.next = n5;
+            var n6 = new Node(6);
+            n5.next = n6;
+            var n7 = new Node(7);
+            n6.next = n7;
+            n7.next = n3;
 
-            Node list2;
-
-            var m1 = new Node(5);
-            list2 = m1;
-            var m2 = new Node(6);
-            m1.next = m2;
-            var m3 = new Node(4);
-            m2.next = m3;
             var program = new Program();
-            var n = program.Sum(list1, list2);
-            program.PrintLinkedList(n);
+            var node = program.CycleDetection(head);
+            if (node != null)
+            {
+                var cn = program.GetFirstNodeOfCycle(head, node);
+            }
 
 
         }
