@@ -71,11 +71,12 @@ namespace LinkedListDSA
             return head; // return current head
         }
 
-        Node InsertNodeRecursive(Node head, int data, int index) {
+        Node InsertNodeRecursive(Node head, int data, int index)
+        {
             Node newNode = new Node(data);
             if (head == null)
                 return head;
-            if(index == 0)
+            if (index == 0)
             {
                 newNode.next = head;
                 head = newNode;
@@ -99,6 +100,56 @@ namespace LinkedListDSA
             return head;
         }
 
+        Node ReverseRecursion(Node head) {
+            if (head.next == null)
+                return head;
+
+            Node x = ReverseRecursion(head.next);
+            head.next.next = head;
+            head.next = null;
+            return x;
+        }
+
+        Node ReverseInterative(Node head)
+        {
+            if (head == null)
+                return null;
+            Node p = null;
+            Node c = head;
+            Node n= head.next;
+
+            while (c != null)
+            {
+                c.next = p;
+                p = c;
+                c = n;
+                if (n != null)
+                    n = n.next;
+            }
+            return p;
+        }
+
+        int length(Node head)
+        {
+            if (head == null)
+            {
+                return 0;
+            }
+            return 1 + length(head.next);
+        }
+
+        Node Middle(Node head)
+        {
+            Node slow = head;
+            Node fast = head;
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            return slow;
+        }
+
         static void Main(string[] args)
         {
 
@@ -115,11 +166,10 @@ namespace LinkedListDSA
             var n5 = new Node(5);
             n4.next = n5;
 
-            //var header = new Program().InsertNode(head, 70, -1);
-            new Program().PrintLinkedList(head);
-            Console.WriteLine("----------------------");
-            var header = new Program().DeleteNodeRecursive(head,1);
-            new Program().PrintLinkedList(header);
+            var program = new Program();
+            var n = program.ReverseRecursion(head);
+            program.PrintLinkedList(n);
+
 
         }
     }
